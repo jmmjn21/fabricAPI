@@ -11,7 +11,7 @@ OrdererOrgs:
   # Orderer
   # ---------------------------------------------------------------------------
   - Name: Orderer
-    Domain: mansilla.com
+    Domain: example.com
 
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
@@ -27,7 +27,7 @@ PeerOrgs:
   # Org1
   # ---------------------------------------------------------------------------
   - Name: Org1
-    Domain: org1.mansilla.com
+    Domain: org1.example.com
 
     # ---------------------------------------------------------------------------
     # "CA"
@@ -83,7 +83,7 @@ PeerOrgs:
     # name collisions
     # ---------------------------------------------------------------------------
     Template:
-      Count: 1
+      Count: 2
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
       SANS:
@@ -101,24 +101,12 @@ PeerOrgs:
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
   - Name: Org2
-    Domain: org2.mansilla.com
+    Domain: org2.example.com
     CA:
        Hostname: ca # implicitly ca.org1.example.com
 
     Template:
       Count: 2
-      SANS:
-        - "localhost"
-    Users:
-      Count: 1
-
-  - Name: Org3
-    Domain: org3.mansilla.com
-    CA:
-       Hostname: ca # implicitly ca.org1.example.com
-
-    Template:
-      Count: 3
       SANS:
         - "localhost"
     Users:

@@ -3,16 +3,16 @@ module.exports = {
 	orgs: {
 		"orderer": {
 			"url": "grpcs://192.168.99.100:7050",
-			"server-hostname": "orderer.mansilla.com",
-			"tls_cacerts": "../../artifacts/channel/crypto-config/ordererOrganizations/mansilla.com/orderers/orderer.mansilla.com/tls/ca.crt"
+			"server-hostname": "orderer.example.com",
+			"tls_cacerts": "../../artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt"
 		},
 		"org1": {
 			"name": "peerOrg1",
 			"mspid": "Org1MSP",
 			"ca": "https://192.168.99.100:7054",
 			"admin": {
-				"key": "../../artifacts/channel/crypto-config/peerOrganizations/org1.mansilla.com/users/Admin@org1.mansilla.com/msp/keystore",
-				"cert": "../../artifacts/channel/crypto-config/peerOrganizations/org1.mansilla.com/users/Admin@org1.mansilla.com/msp/signcerts"
+				"key": "../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore",
+				"cert": "../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts"
 			}
 		},
 		"org2": {
@@ -20,17 +20,8 @@ module.exports = {
 			"mspid": "Org2MSP",
 			"ca": "https://192.168.99.100:8054",
 			"admin": {
-				"key": "../../artifacts/channel/crypto-config/peerOrganizations/org2.mansilla.com/users/Admin@org2.mansilla.com/msp/keystore",
-				"cert": "../../artifacts/channel/crypto-config/peerOrganizations/org2.mansilla.com/users/Admin@org2.mansilla.com/msp/signcerts"
-			}
-		},
-		"org3": {
-			"name": "peerOrg3",
-			"mspid": "Org3MSP",
-			"ca": "https://192.168.99.100:9054",
-			"admin": {
-				"key": "../../artifacts/channel/crypto-config/peerOrganizations/org3.mansilla.com/users/Admin@org3.mansilla.com/msp/keystore",
-				"cert": "../../artifacts/channel/crypto-config/peerOrganizations/org3.mansilla.com/users/Admin@org3.mansilla.com/msp/signcerts"
+				"key": "../../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore",
+				"cert": "../../artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts"
 			}
 		}
 	},
