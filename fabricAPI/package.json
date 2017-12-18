@@ -1,0 +1,35 @@
+{
+  "name": "fabricAPI",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "swagger-express-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0",
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "express-bearer-token": "^2.1.0",
+    "express-jwt": "^5.1.0",
+    "express-session": "^1.15.2",
+    "fabric-ca-client": "^1.0.0",
+    "fabric-client": "^1.0.0",
+    "fs-extra": "^2.0.0",
+    "jsonwebtoken": "^7.3.0",
+    "log4js": "^0.6.38",
+    "log": "^1.4.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}

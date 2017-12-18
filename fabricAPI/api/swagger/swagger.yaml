@@ -1,0 +1,484 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: API for Hyperledger
+# during dev, should point to your local machine
+host: localhost:8080
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+tags:
+- name: "users"
+  description: "User basic methods"
+- name: "channels"
+  description: "Channel basic methods"
+- name: "chaincodes"
+  description: "Chaincode basic methods"
+
+paths:
+  /channels:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "channels"
+      description: Create a channel in the fabric network
+      # used as the method name of the controller
+      operationId: createChannel
+      parameters:
+        - name: body
+          in: body
+          description: The parameters for the channel creation
+          required: true
+          schema:
+            $ref: "#/definitions/CreateChannelRequest"
+
+        - name: userName
+          in: header
+          description: 'The user name to call the function'
+          required: true
+          type: string
+
+        - name: orgName
+          in: header
+          description: 'The organization name to call the function'
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /channels/{channel_id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "channels"
+      description: Join the input peers to the channel
+      # used as the method name of the controller
+      operationId: joinPeers
+      parameters:
+        - name: channel_id
+          in: path
+          description: The name of the target channel
+          required: true
+          type: string
+
+        - name: body
+          in: body
+          description: List of peers to join the channel
+          required: true
+          schema:
+            $ref: "#/definitions/JoinPeersRequest"
+
+        - name: userName
+          in: header
+          description: 'The user name to call the function'
+          required: true
+          type: string
+
+        - name: orgName
+          in: header
+          description: 'The organization name to call the function'
+          required: true
+          type: string
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /chaincodes:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "chaincodes"
+      description: Install a chaincode into the network
+      # used as the method name of the controller
+      operationId: installChaincode
+      parameters:
+        - name: body
+          in: body
+          description: The parameters for the chaincode installation
+          required: true
+          schema:
+            $ref: "#/definitions/InstallChaincodeRequest"
+
+        - name: userName
+          in: header
+          description: 'The user name to call the function'
+          required: true
+          type: string
+
+        - name: orgName
+          in: header
+          description: 'The organization name to call the function'
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /channels/{channel_id}/chaincodes:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "channels"
+      description: Instantiate the chaincode into the channel target
+      # used as the method name of the controller
+      operationId: instantiateChaincode
+      parameters:
+        - name: channel_id
+          in: path
+          description: The name of the target channel
+          required: true
+          type: string
+
+        - name: body
+          in: body
+          description: The parameters for the chaincode instantation
+          required: true
+          schema:
+            $ref: "#/definitions/InstantiateChaincodeRequest"
+
+        - name: userName
+          in: header
+          description: 'The user name to call the function'
+          required: true
+          type: string
+
+        - name: orgName
+          in: header
+          description: 'The organization name to call the function'
+          required: true
+          type: string
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /channels/{channel_id}/chaincodes/{chaincode_id}:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "channels"
+      description: Invoke a function of the chaincode into the channel
+      # used as the method name of the controller
+      operationId: invokeChaincode
+      parameters:
+        - name: channel_id
+          in: path
+          description: The name of the chaincode
+          required: true
+          type: string
+
+        - name: chaincode_id
+          in: path
+          description: The name of the function
+          required: true
+          type: string
+
+        - name: body
+          in: body
+          description: The parameters for the chaincode invocation
+          required: true
+          schema:
+            $ref: "#/definitions/InvokeChaincodeRequest"
+
+        - name: userName
+          in: header
+          description: 'The user name to call the function'
+          required: true
+          type: string
+
+        - name: orgName
+          in: header
+          description: 'The organization name to call the function'
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /admins:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "users"
+      description: Register an admin user
+      # used as the method name of the controller
+      operationId: registerAdminUser
+      parameters:
+        - name: body
+          in: body
+          description: The parameters for regsitry an admin user
+          required: true
+          schema:
+            $ref: "#/definitions/RegisterAdminRequest"
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SucessResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /users:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: main
+    post:
+      tags:
+      - "users"
+      description: Enroll an user
+      # used as the method name of the controller
+      operationId: enrollUser
+      parameters:
+        - name: body
+          in: body
+          description: The parameters for enroll a new user
+          required: true
+          schema:
+            $ref: "#/definitions/EnrollUserRequest"
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/EnrollUserResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+# complex objects have schema definitions
+definitions:
+  SucessResponse:
+    type: object
+
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+
+  EnrollUserRequest:
+    required:
+      - userName
+      - orgName
+    properties:
+      userName:
+        type: string
+        description: 'Name of the user'
+      orgName:
+        type: string
+        description: 'Name of the organization'
+
+  EnrollUserResponse:
+    required:
+      - message
+      - user_name
+      - org_name
+    properties:
+      message:
+        type: string
+        description: 'Operation result'
+      user_name:
+        type: string
+        description: 'Name of the user'
+      org_name:
+        type: string
+        description: 'Name of the organization'
+
+  RegisterAdminRequest:
+    required:
+      - adminName
+      - orgName
+    properties:
+      adminName:
+        type: string
+        description: 'Name of the admin'
+      orgName:
+        type: string
+        description: 'Name of the organization'
+
+  CreateChannelRequest:
+    required:
+      - channelName
+      - channelConfigPath
+    properties:
+      channelName:
+        type: string
+        description: 'Name of the new channel'
+
+      channelConfigPath:
+        type: string
+        description: 'Path with the channel config file'
+
+  Peer:
+    required:
+      - requests
+      - server-hostname
+      - tls_cacerts
+    properties:
+      requests:
+        type: string
+        description: 'Peer IP:PORT'
+      server-hostname:
+        type: string
+        description: 'Peer hostname'
+      tls_cacerts:
+        type: string
+        description: 'Path with the tls certs of the peer'
+
+  JoinPeersRequest:
+    required:
+      - peers
+    properties:
+      peers:
+        type: array
+        items:
+          $ref: "#/definitions/Peer"
+        description: 'List of peers'
+
+  InstallChaincodeRequest:
+    required:
+      - peers
+      - chaincodeName
+      - chaincodePath
+      - chaincodeVersion
+    properties:
+      peers:
+        type: array
+        items:
+          $ref: "#/definitions/Peer"
+        description: 'List of peers'
+
+      chaincodeName:
+        type: string
+        description: 'Name of the chaincode'
+
+      chaincodePath:
+        type: string
+        description: 'Path of the chaincode'
+
+      chaincodeVersion:
+        type: string
+        description: 'Version of the chaincode'
+
+  InstantiateChaincodeRequest:
+    required:
+      - peers
+      - chaincodeName
+      - chaincodeVersion
+      - args
+    properties:
+      peers:
+        type: array
+        items:
+          $ref: "#/definitions/Peer"
+        description: 'List of peers'
+
+      chaincodeName:
+        type: string
+        description: 'Name of the chaincode'
+
+      chaincodeVersion:
+        type: string
+        description: 'Version of the chaincode'
+
+      fcn:
+        type: string
+        description: 'Constructor function name'
+
+      args:
+        type: array
+        items:
+          type: string
+        description: 'List of fucntion parameters'
+
+  InvokeChaincodeRequest:
+    required:
+      - peers
+      - fcn
+      - args
+    properties:
+      peers:
+        type: array
+        items:
+          $ref: "#/definitions/Peer"
+        description: 'List of peers to endorsement'
+
+      fcn:
+        type: string
+        description: 'The function name'
+
+
+      args:
+        type: array
+        items:
+          type: string
+        description: 'List of function parameters'

@@ -1,0 +1,12 @@
+version: "2.0"
+
+services:
+
+  fabric:
+    restart: on-failure:5
+    build: fabricAPI
+    image: fabricservice
+    ports:
+     - "8080:8080"
+    volumes:  #DEVELOPMENT SETTINGS
+     - ./fabricAPI:/api

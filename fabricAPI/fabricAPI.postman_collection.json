@@ -1,0 +1,289 @@
+{
+	"id": "b955592d-31dd-39c6-1e54-852b43c062d2",
+	"name": "fabricAPI",
+	"description": "",
+	"order": [
+		"7e09e555-363e-25b2-7d8d-51a4c27b25cc",
+		"c57bf216-65fa-e422-e5dd-731d9061f026",
+		"68942b01-3345-fd7a-4fd9-b81d882bbb50",
+		"6e580980-0f53-ab09-fb26-7c2d8ef108cd",
+		"5c1f2f98-bad4-4870-9681-3b33e4e991f6",
+		"47d1ad70-d389-12f5-5327-6cbe803f63e4",
+		"9073ada4-a7d3-0715-2538-4929bdc711b0"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 0,
+	"owner": "441232",
+	"public": false,
+	"requests": [
+		{
+			"id": "47d1ad70-d389-12f5-5327-6cbe803f63e4",
+			"headers": "Content-Type: application/json\nuserName: {{user_name}}\norgName: {{org_name}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "userName",
+					"value": "{{user_name}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "orgName",
+					"value": "{{org_name}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/channels/{{channel_id}}/chaincodes",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513364663223,
+			"name": "5 - InstantiateChaincode",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n  \"peers\": [\n    {\n      \"requests\": \"grpcs://192.168.99.100:7051\",\n      \"server-hostname\": \"peer0.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt\"\n    },\n    {\n      \"requests\": \"grpcs://192.168.99.100:7056\",\n      \"server-hostname\": \"peer1.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt\"\n    }\n  ],\n  \"chaincodeName\": \"{{chaincode_id}}\",\n  \"chaincodeVersion\": \"{{chaincode_version}}\",\n  \"args\": [\"A\", \"2000\", \"B\", \"30\"]\n}"
+		},
+		{
+			"id": "5c1f2f98-bad4-4870-9681-3b33e4e991f6",
+			"headers": "Content-Type: application/json\nuserName: {{user_name}}\norgName: {{org_name}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "userName",
+					"value": "{{user_name}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "orgName",
+					"value": "{{org_name}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/chaincodes",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "try{\n    tests[\"Status code is 200\"] = responseCode.code === 200;\n    var data = JSON.parse(responseBody);\n    console.log(data);\n    postman.setEnvironmentVariable(\"chaincode_id\", data.chaincode_id);\n    postman.setEnvironmentVariable(\"chaincode_version\", data.chaincode_version);\n}\ncatch(err){\n    console.log(err);\n}",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513364870976,
+			"name": "4 - InstallChaincode",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n  \"peers\": [\n    {\n      \"requests\": \"grpcs://192.168.99.100:7051\",\n      \"server-hostname\": \"peer0.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt\"\n    },\n    {\n      \"requests\": \"grpcs://192.168.99.100:7056\",\n      \"server-hostname\": \"peer1.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt\"\n    }\n  ],\n  \"chaincodeName\": \"original\",\n  \"chaincodePath\": \"test\",\n  \"chaincodeVersion\": \"v1\"\n}"
+		},
+		{
+			"id": "68942b01-3345-fd7a-4fd9-b81d882bbb50",
+			"headers": "Content-Type: application/json\nuserName: {{user_name}}\norgName: {{org_name}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "userName",
+					"value": "{{user_name}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "orgName",
+					"value": "{{org_name}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/channels",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "try{\n    tests[\"Status code is 200\"] = responseCode.code === 200;\n    var data = JSON.parse(responseBody);\n    console.log(data);\n    postman.setEnvironmentVariable(\"channel_id\", data.channel_id);\n}\ncatch(err){\n    console.log(err);\n}",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513364874647,
+			"name": "2 - CreateChannel",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n  \"channelName\": \"mychannel\",\n  \"channelConfigPath\": \"../../artifacts/channel/mychannel.tx\"\n}"
+		},
+		{
+			"id": "6e580980-0f53-ab09-fb26-7c2d8ef108cd",
+			"headers": "Content-Type: application/json\nuserName: {{user_name}}\norgName: {{org_name}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "userName",
+					"value": "{{user_name}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "orgName",
+					"value": "{{org_name}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/channels/{{channel_id}}",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513364872658,
+			"name": "3 - JoinPeerToChannel",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n  \"peers\": [\n    {\n      \"requests\": \"grpcs://192.168.99.100:7051\",\n      \"server-hostname\": \"peer0.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt\"\n    },\n        {\n      \"requests\": \"grpcs://192.168.99.100:7056\",\n      \"server-hostname\": \"peer1.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt\"\n    }\n  ]\n}"
+		},
+		{
+			"id": "7e09e555-363e-25b2-7d8d-51a4c27b25cc",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/admins",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513362071197,
+			"name": "0 - registerAdminUser",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n\t\"adminName\": \"javier Mansilla\",\n\t\"orgName\": \"org1\"\n}"
+		},
+		{
+			"id": "9073ada4-a7d3-0715-2538-4929bdc711b0",
+			"headers": "Content-Type: application/json\nuserName: {{user_name}}\norgName: {{org_name}}\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "userName",
+					"value": "{{user_name}}",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "orgName",
+					"value": "{{org_name}}",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/channels/{{channel_id}}/chaincodes/{{chaincode_id}}",
+			"folder": null,
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513364869453,
+			"name": "6 - InvokeChaincode",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n  \"peers\": [\n    {\n      \"requests\": \"grpcs://192.168.99.100:7051\",\n      \"server-hostname\": \"peer0.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt\"\n    },\n    {\n      \"requests\": \"grpcs://192.168.99.100:7056\",\n      \"server-hostname\": \"peer1.org1.example.com\",\n      \"tls_cacerts\": \"../../artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt\"\n    }\n  ],\n  \"fcn\": \"query\",\n  \"args\": [\"A\"]\n}"
+		},
+		{
+			"id": "c57bf216-65fa-e422-e5dd-731d9061f026",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{base_path}}/users",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "try{\n    tests[\"Status code is 200\"] = responseCode.code === 200;\n    var data = JSON.parse(responseBody);\n    console.log(data);\n    postman.setEnvironmentVariable(\"user_name\", data.user_name);\n    postman.setEnvironmentVariable(\"org_name\", data.org_name);\n}\ncatch(err){\n    console.log(err);\n}",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1513362218762,
+			"name": "1 - enrollUser",
+			"description": "",
+			"collectionId": "b955592d-31dd-39c6-1e54-852b43c062d2",
+			"responses": [],
+			"rawModeData": "{\n\t\"userName\": \"javier Mansilla\",\n\t\"orgName\": \"org1\"\n}"
+		}
+	]
+}

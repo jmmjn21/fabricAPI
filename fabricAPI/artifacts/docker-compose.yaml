@@ -1,0 +1,183 @@
+#
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: '2'
+
+services:
+
+  ca.org1.mansilla.com:
+    image: hyperledger/fabric-ca:x86_64-1.0.3
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/81da44b17acd2ac9b4f181fafab086bec823a1f4895eeefaa665f114324efde4_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/81da44b17acd2ac9b4f181fafab086bec823a1f4895eeefaa665f114324efde4_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/org1.mansilla.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrg1
+
+  ca.org2.mansilla.com:
+    image: hyperledger/fabric-ca:x86_64-1.0.3
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/0228c6bf60f7c63f1ef1018d0879b6d5577a308fd9ad2cbabedcbce7bffaf587_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/0228c6bf60f7c63f1ef1018d0879b6d5577a308fd9ad2cbabedcbce7bffaf587_sk
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/org2.mansilla.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrg2
+
+  ca.org3.mansilla.com:
+    image: hyperledger/fabric-ca:x86_64-1.0.3
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org3.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/e78c2b595e02c9d239a8e53a5ddcc402395fd4219697b018748dc4d25ea03b9d_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org3.mansilla.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/e78c2b595e02c9d239a8e53a5ddcc402395fd4219697b018748dc4d25ea03b9d_sk
+    ports:
+      - "9054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./channel/crypto-config/peerOrganizations/org3.mansilla.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrg3
+
+  orderer.mansilla.com:
+    container_name: orderer.mansilla.com
+    image: hyperledger/fabric-orderer:x86_64-1.0.3
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/crypto/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/crypto/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/crypto/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/crypto/orderer/tls/ca.crt, /etc/hyperledger/crypto/peerOrg1/tls/ca.crt, /etc/hyperledger/crypto/peerOrg2/tls/ca.crt, /etc/hyperledger/crypto/peerOrg3/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
+    command: orderer
+    ports:
+      - 7050:7050
+    volumes:
+        - ./channel:/etc/hyperledger/configtx
+        - ./channel/crypto-config/ordererOrganizations/mansilla.com/orderers/orderer.mansilla.com/:/etc/hyperledger/crypto/orderer
+        - ./channel/crypto-config/peerOrganizations/org1.mansilla.com/peers/peer0.org1.mansilla.com/:/etc/hyperledger/crypto/peerOrg1
+        - ./channel/crypto-config/peerOrganizations/org2.mansilla.com/peers/peer0.org2.mansilla.com/:/etc/hyperledger/crypto/peerOrg2
+        - ./channel/crypto-config/peerOrganizations/org3.mansilla.com/peers/peer0.org3.mansilla.com/:/etc/hyperledger/crypto/peerOrg3
+
+  peer0.org1.mansilla.com:
+    container_name: peer0.org1.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org1.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_ADDRESS=peer0.org1.mansilla.com:7051
+    ports:
+      - 7051:7051
+      - 7053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org1.mansilla.com/peers/peer0.org1.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
+
+  peer0.org2.mansilla.com:
+    container_name: peer0.org2.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org2.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_ADDRESS=peer0.org2.mansilla.com:7051
+    ports:
+      - 8051:7051
+      - 8053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org2.mansilla.com/peers/peer0.org2.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
+
+  peer1.org2.mansilla.com:
+    container_name: peer1.org2.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.org2.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_ADDRESS=peer1.org2.mansilla.com:7051
+    ports:
+      - 8056:7051
+      - 8058:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org2.mansilla.com/peers/peer1.org2.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
+
+  peer0.org3.mansilla.com:
+    container_name: peer0.org3.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.org3.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_ADDRESS=peer0.org3.mansilla.com:7051
+    ports:
+      - 9051:7051
+      - 9053:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org3.mansilla.com/peers/peer0.org3.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
+
+  peer1.org3.mansilla.com:
+    container_name: peer1.org3.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.org3.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_ADDRESS=peer1.org3.mansilla.com:7051
+    ports:
+      - 9056:7051
+      - 9058:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org3.mansilla.com/peers/peer1.org3.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
+
+  peer2.org3.mansilla.com:
+    container_name: peer2.org3.mansilla.com
+    extends:
+      file:   base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer2.org3.mansilla.com
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_ADDRESS=peer2.org3.mansilla.com:7051
+    ports:
+      - 9060:7051
+      - 9062:7053
+    volumes:
+        - ./channel/crypto-config/peerOrganizations/org3.mansilla.com/peers/peer2.org3.mansilla.com/:/etc/hyperledger/crypto/peer
+    depends_on:
+      - orderer.mansilla.com
